@@ -54,12 +54,10 @@
 
 ## Links:
 
-    - http://tutorial.djangogirls.org/en/index.html
-
-	- https://realpython.com/learn/start-django/#django-18
-
-	- http://erwinyusrizal.me/create-django-17-python-34-webfaction/
+ - http://tutorial.djangogirls.org/en/index.html
+ - https://realpython.com/learn/start-django/#django-18
+ - http://erwinyusrizal.me/create-django-17-python-34-webfaction/
 
 ##  Possible hosting solutions:
 
-	- https://www.pythonanywhere.com/
+ - https://www.pythonanywhere.com/

@@ -3,7 +3,9 @@
 
 	{% for post in posts %}
 		<div>
-    		<a href=""><h2>{{ post }}</h2></a>
+    		<a href=""><h2>{{ post.title }}</h2></a>
+    		<p>{{ post.created_date }}</p>
+    		<p>{{ post.text }}</p>
     	</div>
 	{% endfor %}
 </html>

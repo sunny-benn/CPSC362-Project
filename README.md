@@ -45,6 +45,11 @@
 	 - Now we need to install our Django requirements:
 		 - $ pip install -r requirements.txt
  - **That's it. Now your machine is setup with the development environment.**
+ 
+## How to commit your changes
+
+ - Please follow this tutorial (the example further down is helpful):
+  - https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow
 
 ## Superuser account for SQLite3 DB
 

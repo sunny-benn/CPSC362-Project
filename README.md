@@ -54,6 +54,10 @@
  - Username: `root`
  - Password: `password`
  - Email: **Not using email address**
+ 
+## How to commit your changes
+ - Please follow this tutorial (the example further down is helpful):
+	- https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow
 
 ## Links:
 

@@ -41,15 +41,13 @@
  - This creates a virtual environment where all the libraries and executables for our prject will live. This will help keep everything the same accross different machines.
  - Now to access the virtualenv, we do:
 	 - $ source env/bin/activate
- - You'll notice that your shell has been prepended with "(env)", this indicates your in the envirtonement.
-	 - Now we need to install our Django requirements:
-		 - $ pip install -r requirements.txt
+ - You'll notice that your shell has been prepended with "(env)", this indicates your in the environment. 
+ - Note: To go back to your normal shell environment, do:
+ 	 - $ deactivate
+ - Now we need to install our Django requirements:
+ 	 - cd into the project root folder, then proceed to next step.
+	 	 - $ pip install -r requirements.txt
  - **That's it. Now your machine is setup with the development environment.**
- 
-## How to commit your changes
-
- - Please follow this tutorial (the example further down is helpful):
-  - https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow
 
 ## Superuser account for SQLite3 DB
 

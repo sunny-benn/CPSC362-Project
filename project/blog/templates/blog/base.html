@@ -1,0 +1,17 @@
+<html>
+	<head>
+		<title>My Test Blog</title>
+	</head>
+	<body>
+		<h1>My Blog</h1>
+
+		<div id="content">
+			{% comment %}
+				This is where we include the html for our blog posts.
+			{% endcomment}
+	        {% include "blog/post_list.html" %}
+	    </div>
+		<p>Copyright 2015</p>
+	</body>
+	
+</html>

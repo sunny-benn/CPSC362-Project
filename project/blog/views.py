@@ -4,7 +4,11 @@ from .models import Post
 
 # Create your views here.
 
-def post_list(request):
+# Defining the "base" view here.
+# We want to incorporate our blog posts here, so we do a query on the model of Post to get the objects.
+def base(request):
 	posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-	return render(request, 'blog/post_list.html', {'posts': posts})
+
+	# We return a rendered base.html with our model "posts".
+	return render(request, 'blog/base.html', {'posts': posts})
 

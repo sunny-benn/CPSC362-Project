@@ -3,7 +3,9 @@ from django.utils import timezone
 
 # Create your models here.
 
+# This models the Post object that we will use to create posts.
 class Post(models.Model):
+	# Each model has its own attributes.
 	author = models.ForeignKey('auth.User')
 	title = models.CharField(max_length=200)
 	text = models.TextField()

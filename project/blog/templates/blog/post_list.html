@@ -1,9 +1,11 @@
-<html>
-	<h1>Blog</h1>
+{% comment %}
+	Anything between these tags is a comment.
 
-	{% for post in posts %}
-		<div>
-    		<a href=""><h2>{{ post }}</h2></a>
-    	</div>
-	{% endfor %}
-</html>
+	So this html page contains the posts of our blog. We will include this file in our base.html using the include tags.
+{% endcomment %}	
+
+{% for post in posts %}
+	<a href="{% url 'post_detail' post_id=post.pk %}"><h2>{{ post.title }}</h2></a>
+	<p>{{ post.created_date }}</p>
+	<p>{{ post.text }}</p>
+{% endfor %}

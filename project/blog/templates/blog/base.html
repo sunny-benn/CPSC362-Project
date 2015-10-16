@@ -1,0 +1,44 @@
+<html>
+	<head>
+		<title>My Test Blog</title>
+	</head>
+	<body>
+		<h1>My Blog</h1>
+
+		<!-- 
+			Checking to see of user is logged in.
+			If so, display username and logout link.
+			Else, display form to log in and register link if user does not have an account.
+		--> 
+		{% if not user_logged_in %}
+			<form method="POST">
+				{% csrf_token %}
+				{{ form }}<br>
+				<input type="submit" value="Submit" />
+			</form>
+			<a href="{% url 'register' %}">Register</a>
+
+			<!-- This is not working at the moment. -->
+			{% if form.non_field_errors %}
+				<ul class='form-errors'>
+					{% for error in form.non_field_errors %}
+						<li>{{ error }}</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+
+		{% else %}
+			<p>You are logged in as <span style="color:red;">{{ request.user.username }}</span>!</p>
+			<a href="{% url 'logout' %}">Logout</a>
+
+			<div style="text-align:center;" id="content">
+			<!-- Include all blog posts. --> 
+				{% include "blog/post_list.html" %}
+			</div>
+		{% endif %}
+		<br>
+		<hr>
+		<p>Copyright 2015</p>
+	</body>
+	
+</html>

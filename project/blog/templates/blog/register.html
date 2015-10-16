@@ -1,0 +1,16 @@
+<html>
+	<head>
+		<title>Registration - My Test Blog</title>
+	</head>
+	<body>
+		<h1>Registration</h1>
+		<br>
+		<form method="POST">{% csrf_token %}
+			{{ form }}
+			<input type="submit" value="Submit">
+		</form>
+		<br><br>
+		<hr>
+		<p>Copyright 2015</p>
+	</body>
+</html>

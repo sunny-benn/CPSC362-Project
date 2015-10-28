@@ -11,21 +11,26 @@
 			Else, display form to log in and register link if user does not have an account.
 		--> 
 		{% if not user_logged_in %}
-			<form method="POST">
-				{% csrf_token %}
-				{{ form }}<br>
-				<input type="submit" value="Submit" />
-			</form>
-			<a href="{% url 'register' %}">Register</a>
-
-			<!-- This is not working at the moment. -->
-			{% if form.non_field_errors %}
-				<ul class='form-errors'>
-					{% for error in form.non_field_errors %}
-						<li>{{ error }}</li>
-					{% endfor %}
-				</ul>
+			<!-- If user entered the wrong credentials, display errors. -->
+			{% if errors %}
+				<span style="color:red;">{{ errors|linebreaks }}</span>
 			{% endif %}
+
+			<form method="POST">
+			{% csrf_token %}
+				{% for field in form %}
+					<div class="fieldWrapper">
+						{{ field.label_tag }} {{ field }}
+						<span style="color:red;">{{ field.errors }}</span>
+						{% if field.help_text %}
+							<p class="help">{{ field.help_text|safe }}</p>
+						{% endif %}
+					</div>
+				{% endfor %}
+				<input type="submit" value="Login" />
+			</form>
+			<br>
+			<a href="{% url 'register' %}">Register</a>
 
 		{% else %}
 			<p>You are logged in as <span style="color:red;">{{ request.user.username }}</span>!</p>
@@ -35,6 +40,7 @@
 			<!-- Include all blog posts. --> 
 				{% include "blog/post_list.html" %}
 			</div>
+			<a href="{% url 'post_new' %}">New Post</a>
 		{% endif %}
 		<br>
 		<hr>

@@ -1,16 +1,36 @@
-<html>
-	<head>
-		<title>Registration - My Test Blog</title>
-	</head>
-	<body>
-		<h1>Registration</h1>
-		<br>
-		<form method="POST">{% csrf_token %}
-			{{ form }}
-			<input type="submit" value="Submit">
-		</form>
-		<br><br>
-		<hr>
-		<p>Copyright 2015</p>
-	</body>
-</html>
+{% extends "blog/base.html" %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-8">
+        <section id="loginForm">
+            <form action="/register" method="POST" class="form-horizontal">
+                {% csrf_token %}
+                <div class="page-header">
+                    <h1>Register</h1>
+                </div>
+                <div class="form-group">
+                    <label for="id_username" class="col-md-4 control-label">Create a user name</label>
+                    <div class="col-md-8">
+                        {{ form.username }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="id_password" class="col-md-4 control-label">Enter a password</label>
+                    <div class="col-md-8">
+                        {{ form.password }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-4 col-md-8">
+                        <input type="hidden" name="next" value="/" />
+                        <input type="submit" value="Register" class="btn btn-default" />
+                    </div>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+{% endblock %}

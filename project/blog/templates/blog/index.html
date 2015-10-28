@@ -1,0 +1,30 @@
+﻿{% extends "blog/base.html" %}
+
+{% block content %}
+
+<div class="jumbotron">
+    <h1>Market362</h1>
+    <p class="lead">Market362 is a simple platform to buy and sell products.</p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Getting started</h2>
+        <p>
+            You can start searching through the posted listings without an account  
+        </p>
+        <p><a class="btn btn-default" href="{% url 'post_list' %}">Browse &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Create an account</h2>
+        <p>If you want to create a listing, create a free account and start posting within minutes</p>
+        <p><a class="btn btn-default" href="{% url 'register' %}">Register &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Already have an account?</h2>
+        <p>Sign in and start posting</p>
+        <p><a class="btn btn-default" href="{% url 'login' %}">Log In &raquo;</a></p>
+    </div>
+</div>
+
+{% endblock %}

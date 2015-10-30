@@ -1,0 +1,12 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+
+<div class="listing">
+	<h1>{{ listing.title }}</h1>
+	<p>{{ listing.created_date }}</p>
+	<p>{{ listing.text|linebreaks }}</p>
+	<p><a href="{% url 'listing_list' %}" class="btn btn-primary" role="button">Go Back</a></p>
+</div>
+
+{% endblock %}

@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from django.contrib.auth import authenticate, login
-from .models import Post
+from .models import Listing
 
 # This is a for which defines our user accounts. 
 class UserForm(forms.Form):
@@ -14,7 +14,7 @@ class UserForm(forms.Form):
 		'inactive': ("This account is inactive."),
 	}
 
-class PostForm(forms.ModelForm):
+class ListingForm(forms.ModelForm):
 	class Meta:
-		model = Post
+		model = Listing
 		fields = ('title', 'text')

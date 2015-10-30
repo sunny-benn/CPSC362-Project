@@ -55,7 +55,7 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'mysite.urls'
 
-LOGIN_REDIRECT_URL = 'post_list'
+LOGIN_REDIRECT_URL = 'listing_list'
 
 TEMPLATES = [
     {

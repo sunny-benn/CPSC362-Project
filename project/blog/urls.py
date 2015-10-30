@@ -8,7 +8,7 @@ from . import views
 urlpatterns = [
 	url(r'^$', views.base, name='base'),
 	url(r'^register$', views.register, name='register'),
-    url(r'^post_list$', views.post_list, name='post_list'),
+    url(r'^listing_list$', views.listing_list, name='listing_list'),
 
     # Using Django's built-in login view.
 	url(r'^login$', auth_views.login, {'template_name': 'blog/login.html'}, name='login'),
@@ -19,7 +19,7 @@ urlpatterns = [
 			"next_page": reverse_lazy('base')
 		}, name='logout'),
 
-	# This is for viewing blog posts individually.
-	url(r'^post/(?P<post_id>[0-9]+)$', views.post_detail, name='post_detail'),
-	url(r'^post/new$', views.post_new, name='post_new'),
+	# This is for viewing blog listings individually.
+	url(r'^listing/(?P<listing_id>[0-9]+)$', views.listing_detail, name='listing_detail'),
+	url(r'^listing/new$', views.listing_new, name='listing_new'),
 ]

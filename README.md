@@ -59,6 +59,12 @@
  - Please follow this tutorial (the example further down is helpful):
 	- https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow
 
+## How to run site on localserver
+ - Go to root directory of project.
+ - Activate the virtualenv.
+ - cd into project/ directory.
+ - Run the command `$ python manage.py runserver`.
+
 ## Links:
 
  - http://tutorial.djangogirls.org/en/index.html

@@ -1,0 +1,16 @@
+﻿{% comment %}
+	This html page contains the right part of the navigation bar. It shows the logged in user with a menu or a link to log in.
+{% endcomment %}
+
+<ul class="nav navbar-nav navbar-right">
+
+    {% if user.is_authenticated %}
+    <li class="navbar-text">You are logged in as {{ user.username }}</li>
+    <li><a href="{% url 'logout' %}">Log Out</a></li>
+
+    {% else %}
+    <li><a href="{% url 'login' %}">Log in</a></li>
+    <li><a href="{% url 'register' %}">Register</a></li>
+
+    {% endif %}
+</ul>

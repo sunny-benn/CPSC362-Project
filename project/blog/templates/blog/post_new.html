@@ -1,24 +1,35 @@
-<html>
-	<head>
-		<title>New Post - My Test Blog</title>
-	</head>
-	<body>
-		<h1>New Post</h1>
-		<form method="POST">
-		{% csrf_token %}
-			{% for field in form %}
-				<div class="fieldWrapper">
-					{{ field.label_tag }} {{ field }}
-					<span style="color:red;">{{ field.errors }}</span>
-					{% if field.help_text %}
-						<p class="help">{{ field.help_text|safe }}</p>
-					{% endif %}
-				</div>
-			{% endfor %}
-			<input type="submit" value="Post" />
-		</form>
-		<br>
-		<hr>
-		<p>Copyright 2015</p>
-	</body>
-</html>
+{% extends "blog/base.html" %}
+
+{% block content %}
+
+{% comment %}
+	This html page contains the listings.
+{% endcomment %}
+
+<div class="page-header">
+    <h1>Create Listing</h1>
+</div>
+{% if user.is_authenticated %}
+
+<div class="create-post">
+    <form method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="fieldWrapper">
+            {{ field.label_tag }} {{ field }}
+            <span style="color:red;">{{ field.errors }}</span>
+            {% if field.help_text %}
+            <p class="help">{{ field.help_text|safe }}</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <input type="hidden" name="next" value="{% url 'post_list' %}" />
+        <input type="submit" value="Create" class="btn btn-default" />
+    </form>
+</div>
+
+{% else %}
+<p>You must be <a href="{% url 'login' %}">logged in</a> to create a listing.</p>
+{% endif %}
+
+{% endblock %}

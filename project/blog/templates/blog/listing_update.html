@@ -7,11 +7,11 @@
 {% endcomment %}
 
 <div class="page-header">
-    <h1>Create Listing</h1>
+    <h1>Update Listing</h1>
 </div>
 {% if user.is_authenticated %}
 
-<div class="create-post">
+<div class="update-listing">
     <form method="POST">
         {% csrf_token %}
         {% for field in form %}
@@ -23,13 +23,13 @@
             {% endif %}
         </div>
         {% endfor %}
-        <input type="hidden" name="next" value="{% url 'post_list' %}" />
-        <input type="submit" value="Create" class="btn btn-default" />
+        <input type="hidden" name="next" value="{% url 'listing_list' %}" />
+        <input type="submit" value="Update" class="btn btn-default" />
     </form>
 </div>
 
 {% else %}
-<p>You must be <a href="{% url 'login' %}">logged in</a> to create a listing.</p>
+<p>You must be <a href="{% url 'login' %}">logged in</a> to update a listing.</p>
 {% endif %}
 
 {% endblock %}

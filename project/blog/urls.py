@@ -2,6 +2,7 @@
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth import views as auth_views
 from . import views
+from .views import ListingUpdate, ListingDelete
 
 # Each url pattern is tied to a view.
 # If you check views.py, you'll notice that we are defining "base".
@@ -20,6 +21,8 @@ urlpatterns = [
 		}, name='logout'),
 
 	# This is for viewing blog listings individually.
-	url(r'^listing/(?P<listing_id>[0-9]+)$', views.listing_detail, name='listing_detail'),
+	url(r'^listing/(?P<listing_id>[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$', views.listing_detail, name='listing_detail'),
 	url(r'^listing/new$', views.listing_new, name='listing_new'),
+	url(r'^listing/delete/(?P<listing_id>[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$', ListingDelete.as_view(), name='listing_delete'),
+	url(r'^listing/update/(?P<listing_id>[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$', ListingUpdate.as_view(), name='listing_update'),
 ]

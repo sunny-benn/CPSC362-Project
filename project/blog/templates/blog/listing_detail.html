@@ -7,6 +7,12 @@
 	<p>{{ listing.created_date }}</p>
 	<p>{{ listing.text|linebreaks }}</p>
 	<p><a href="{% url 'listing_list' %}" class="btn btn-primary" role="button">Go Back</a></p>
+
+	<!-- Here we check if the user logged in is the author so that they may manage their listing. -->
+	{% if request.user == listing.author %}
+	<p><a href="{% url 'listing_delete' listing_id=listing.pk %}" class="btn btn-primary" role="button">Delete</a></p>
+	<p><a href="{% url 'listing_update' listing_id=listing.pk %}" class="btn btn-primary" role="button">Edit</a></p>
+	{% endif %}
 </div>
 
 {% endblock %}

@@ -10,6 +10,10 @@
 ## Requirements to install in our virtualenv:
 
  - Django 1.8
+ - Pillow 3.0
+
+ Note: If you run into errors installing the above requirements, try doing the following:
+ 	- $ sudo apt-get install python-dev python3-dev libjpeg-dev
 
 ## Installation Instructions for Ubuntu 14.04 (or later)
 

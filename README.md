@@ -10,6 +10,10 @@
 ## Requirements to install in our virtualenv:
 
  - Django 1.8
+ - Pillow 3.0
+
+ Note: If you run into errors installing the above requirements, try doing the following:
+ 	- $ sudo apt-get install python-dev python3-dev libjpeg-dev
 
 ## Installation Instructions for Ubuntu 14.04 (or later)
 
@@ -58,6 +62,12 @@
 ## How to commit your changes
  - Please follow this tutorial (the example further down is helpful):
 	- https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow
+
+## How to run site on localserver
+ - Go to root directory of project.
+ - Activate the virtualenv.
+ - cd into project/ directory.
+ - Run the command `$ python manage.py runserver`.
 
 ## Links:
 

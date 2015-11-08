@@ -1,0 +1,32 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+
+<div class="listing">
+	<h1>{{ listing.title }}</h1>
+	<p>{{ listing.created_date }}</p>
+
+	<!-- This is a div that holds all the images in the listing as thumbnails -->
+	<div class="tray">
+		{% for pic in pictures %}
+		<img src="{{ MEDIA_URL }}{{ pic.picture }}">
+		{% endfor %}
+	</div>
+
+	<!-- This div holds the selected image (when user hovers over a thumbnail) -->
+	<br>
+	<div class="selected">
+    	<img id="selected" src="">
+	</div>
+
+	<p>{{ listing.text|linebreaks }}</p>
+	<p><a href="{% url 'listing_list' %}" class="btn btn-primary" role="button">Go Back</a></p>
+
+	<!-- Here we check if the user logged in is the author so that they may manage their listing. -->
+	{% if request.user == listing.author %}
+	<p><a href="{% url 'listing_delete' listing_id=listing.pk %}" class="btn btn-primary" role="button">Delete</a></p>
+	<p><a href="{% url 'listing_update' listing_id=listing.pk %}" class="btn btn-primary" role="button">Edit</a></p>
+	{% endif %}
+</div>
+
+{% endblock %}

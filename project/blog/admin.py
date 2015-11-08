@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import Post
+from .models import Listing, ListingPicture
 
 # Register your models here.
 
-admin.site.register(Post)
+admin.site.register(Listing)
+admin.site.register(ListingPicture)

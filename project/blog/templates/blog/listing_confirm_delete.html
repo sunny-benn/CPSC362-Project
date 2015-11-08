@@ -1,0 +1,27 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+
+{% comment %}
+	This html page contains the listings.
+{% endcomment %}
+
+<div class="page-header">
+    <h1>Delete Listing</h1>
+</div>
+{% if user.is_authenticated %}
+
+<div class="delete-listing">
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{% url 'listing_list' %}" />
+        <input type="submit" value="Delete" class="btn btn-default" />
+        <input type="submit" name="Cancel" value="Cancel" class="btn btn-default" />
+    </form>
+</div>
+
+{% else %}
+<p>You must be <a href="{% url 'login' %}">logged in</a> to delete a listing.</p>
+{% endif %}
+
+{% endblock %}

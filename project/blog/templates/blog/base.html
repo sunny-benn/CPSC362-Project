@@ -24,7 +24,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="{% url 'post_list' %}">Browse</a></li>
+                    <li><a href="{% url 'listing_list' %}">Browse</a></li>
 				</ul>
 				{% include 'blog/loginpartial.html' %}
 			</div>
@@ -45,6 +45,7 @@
     <script src="{% static 'blog/scripts/jquery-1.10.2.js' %}"></script>
     <script src="{% static 'blog/scripts/bootstrap.js' %}"></script>
     <script src="{% static 'blog/scripts/respond.js' %}"></script>
+    <script src="{% static 'blog/scripts/image-hover-selector.js' %}"></script>
 
 </body>
 </html>

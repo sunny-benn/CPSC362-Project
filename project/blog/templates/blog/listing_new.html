@@ -1,0 +1,46 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+
+{% comment %}
+	This html page contains the listings.
+{% endcomment %}
+
+<div class="page-header">
+    <h1>Create Listing</h1>
+</div>
+{% if user.is_authenticated %}
+
+<div class="create-listing">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="fieldWrapper">
+            {{ field.label_tag }} {{ field }}
+            <span style="color:red;">{{ field.errors }}</span>
+            {% if field.help_text %}
+            <p class="help">{{ field.help_text|safe }}</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+        {% for img in pictureFormSet %}
+        {{ pictureFormSet.management_form }}
+        <div class="fieldWrapper">
+            {{ img.label_tag }} {{ img }}
+            <span style="color:red;">{{ img.errors }}</span>
+            {% if img.help_text %}
+            <p class="help">{{ img.help_text|safe }}</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <input type="hidden" name="next" value="{% url 'listing_list' %}" />
+        <input type="submit" value="Create" class="btn btn-default" />
+    </form>
+</div>
+
+{% else %}
+<p>You must be <a href="{% url 'login' %}">logged in</a> to create a listing.</p>
+{% endif %}
+
+{% endblock %}

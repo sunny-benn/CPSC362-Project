@@ -15,21 +15,32 @@
 <div class="listing">
 	<div class="row">
 
+	<!-- Load static default thumbnail image to display if a listing has no pictures -->
+	{% load static %}
+	{% static 'blog/img/thumbnail-default.jpg' as default %}
 	{% for listing in listings %}
+	{% with listing.listingpicture_set.all.0.picture as picture %}
 
 	  <div class="col-md-3 col-sm-6 col-xs-6">
 	    <div class="thumbnail">
-	      <img src="..." alt="Thumbnail Image Here">
+	      {% if picture %}
+	      <img src="{{ MEDIA_URL }}{{ picture }}" alt="Thumbnail Image Here">
+		  {% else %}
+		  <img src="{{ default }}" alt="Thumbnail Image Here">
+		  {% endif %}
+	      
 	      <div class="caption">
 	        <h3><a href="{% url 'listing_detail' listing_id=listing.pk %}">{{ listing.title }}</a></h3>
+	        <p>Price: {{ listing.price }}
 	        <p>Date: {{ listing.created_date }}</p>
-              <p>Seller: {{ listing.author }}</p>
+            <p>Seller: {{ listing.author }}</p>
 	        <p>{{ listing.text|linebreaks }}</p>
 	        <p><a href="{% url 'listing_detail' listing_id=listing.pk %}" class="btn btn-primary" role="button">Details</a></p>
 	      </div>
 	    </div>
 	  </div>
 
+	{% endwith %}
 	{% endfor %}
 
 	</div>

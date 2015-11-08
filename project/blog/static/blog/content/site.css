@@ -1,12 +1,12 @@
 ﻿body {
-    padding-top: 70px;
-    padding-bottom: 20px;
+	padding-top: 70px;
+	padding-bottom: 20px;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+	padding-left: 15px;
+	padding-right: 15px;
 }
 
 .footer {
@@ -20,34 +20,46 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+	max-width: 280px;
 }
 
 /* styles for validation helpers */
 .field-validation-error {
-    color: #b94a48;
+	color: #b94a48;
 }
 
 .field-validation-valid {
-    display: none;
+	display: none;
 }
 
 input.input-validation-error {
-    border: 1px solid #b94a48;
+	border: 1px solid #b94a48;
 }
 
 input[type="checkbox"].input-validation-error {
-    border: 0 none;
+	border: 0 none;
 }
 
 .validation-summary-errors {
-    color: #b94a48;
+	color: #b94a48;
 }
 
 .validation-summary-valid {
-    display: none;
+	display: none;
 }
 
 .listing {
-    padding-top: 15px;
+	padding-top: 15px;
+}
+
+.tray img {
+	display: inline-block;
+	width: 5%;
+	height: 5%;
+}
+
+.selected #selected {
+	width: 40%;
+	height: 40%;
+	visibility: hidden;
 }

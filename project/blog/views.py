@@ -4,47 +4,86 @@ from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils import timezone
-from .models import Listing
-from .forms import UserForm, ListingForm
+
+from .models import Listing, ListingPicture
+from .forms import UserForm, ListingForm, ListingPictureForm
+from django.forms import modelformset_factory
 
 from django.views.generic import View
 from django.views.generic.edit import UpdateView, DeleteView
 from django.views.generic.detail import SingleObjectMixin
 
-# Create your views here.
+# This function takes a formset, cleans it, enumerates it, and saves the corresponding object to the database. 
+# This function is not a view; just providing a service.
+def savePictureFormToDB(pictureFormSet, listing):
+	# Get data from the form
+	cleaned_data = pictureFormSet.cleaned_data
 
-# Defining our own Generic editing views for CRUD.
-# ListingUpdate handles the updating of Listings
+	# For each picture the user uploads, create a corresponding ListingPicture object
+	for index, pic in enumerate(pictureFormSet):
+		if cleaned_data[index] == {}:
+			break
+		imgPath = cleaned_data[index]['picture']
+		print(imgPath)
+		picture = ListingPicture.objects.create(picture=imgPath, picture_id=listing)
+		picture.save()	
+	return		
+
+# Defining a generic editing views for handling when the user wants to edit/update their listing.
 class ListingUpdate(UpdateView):
 	model = Listing
 	template_name = 'blog/listing_update.html'
 	pk_url_kwarg = 'listing_id'
-	fields = ['title', 'text']
+	fields = ['title', 'price', 'text']
 
-	# Overriding UpdateView's base class' method, post, in order to provide our own CRUD authorization.
+	# Here we are instantiating a formset with ListingPictureForm.
+	ListingPictureFormSet = modelformset_factory(ListingPicture, form=ListingPictureForm, extra=5, max_num=5)
+	pictureFormSet = None
+
+	# Overriding UpdateView's post() method in order to provide our own implementation.
 	def post(self, request, listing_id):
+		# Initializing formset with existing pictures from the listing (queryset).
+		pictureFormSet = self.ListingPictureFormSet(request.POST, request.FILES, queryset=ListingPicture.objects.filter(picture_id=listing_id))
+
 		# Set the object instance in case user cancels their delete request.
-		# Must be called self.object since we are overriding the base class's self.object.
+		# Must be called self.object since we are overriding the UpdateView's self.object.
 		self.object = get_object_or_404(Listing, pk=listing_id)
 		if request.user == self.object.author:
+			# Save updated picture form to database if there's been a change
+			if pictureFormSet.has_changed():
+				savePictureFormToDB(pictureFormSet, self.object)
 			return super(ListingUpdate, self).post(request, listing_id)
 		else:
 			# Return to main page if user tries perform an unauthorized action.
 			return HttpResponseRedirect("/")
 
+	# Overriding UpdateView's get_context_data() method in order to include the formset in the template.
+	def get_context_data(self, **kwargs):
+		# Get context object from UpdateView.
+		context = super(ListingUpdate, self).get_context_data(**kwargs)
+		try:
+			# Build a picture formset based on the listing the user is editing. 
+			pictureFormSet = self.ListingPictureFormSet(queryset=ListingPicture.objects.filter(picture_id=context['listing'].key))
+			# Pass it to the context object so it's accessible to the template.
+			# This is equivalent to render(request, <template path>, {'pictures': pictureFormSet})
+			context['pictures'] = pictureFormSet
+		except Exception as e:
+			context['pictures'] = None
+		return context
 
+# Defining a generic delete views for handling when the user wants to delete their listing.
 class ListingDelete(DeleteView):
 	model = Listing
 	pk_url_kwarg = 'listing_id'
 	success_url = reverse_lazy('listing_list')
 
-	# Overriding DeleteView's base class' method, post, in order to provide our own CRUD authorization.
+	# Overriding DeleteView's post() in order to provide our own implementation.
 	def post(self, request, listing_id):
 		# Set the object instance in case user cancels their delete request.
-		# Must be called self.object since we are overriding the base class's self.object.
+		# Must be called self.object since we are overriding the DeleteView's self.object.
 		self.object = get_object_or_404(Listing, pk=listing_id)
 		if request.user == self.object.author:
-			# "Cancel" refers to the tag <input name="Cancel" ...> from listing_confirm_delete.html
+			# "Cancel" refers to the tag <input name="Cancel" ...> from the template listing_confirm_delete.html
 			if "Cancel" in request.POST:
 				url = self.get_success_url()
 				return HttpResponseRedirect(url)
@@ -54,8 +93,7 @@ class ListingDelete(DeleteView):
 			# Return to main page if user tries perform an unauthorized action.
 			return HttpResponseRedirect("/")
 
-# Defining the "base" view here.
-# We want to incorporate our blog listings here, so we do a query on the model of Listing to get the objects.
+# Defining the base view here. Basic homepage.
 def base(request):
 	# We return a rendered index.html
 	return render(request, 'blog/index.html', {})
@@ -77,6 +115,7 @@ def register(request):
 
 	return render(request, 'blog/register.html', {'form': form})
 
+# When the user clicks the "Browse" button in the navbar.
 def listing_list(request):
 	listings = Listing.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
 	return render(request, 'blog/listing_list.html', {'listings': listings})
@@ -85,17 +124,28 @@ def listing_list(request):
 # Refer to the <a> tag inside listing_list.html 
 def listing_detail(request, listing_id):
 	listing = get_object_or_404(Listing, pk=listing_id)
-	return render(request, 'blog/listing_detail.html', {'listing': listing})
+	pictures = ListingPicture.objects.filter(picture_id=listing_id)
+	return render(request, 'blog/listing_detail.html', {'listing': listing, 'pictures': pictures})
 
+# For creating a new listing.
 def listing_new(request):
+	ListingPictureFormSet = modelformset_factory(ListingPicture, form=ListingPictureForm, extra=5, max_num=5)
+
 	if request.method == "POST":
 		form = ListingForm(request.POST)
+		pictureFormSet = ListingPictureFormSet(request.POST, request.FILES, queryset=ListingPicture.objects.none())
+
 		if form.is_valid():
-			title, text = form.cleaned_data['title'], form.cleaned_data['text']
-			listing = Listing.objects.create(author=request.user, title=title, text=text)
+			title, text, price = form.cleaned_data['title'], form.cleaned_data['text'], form.cleaned_data['price']
+			listing = Listing.objects.create(author=request.user, title=title, text=text, price=price)
 			listing.publish()
+
+			if pictureFormSet.is_valid():
+				savePictureFormToDB(pictureFormSet, listing)
+
 			return HttpResponseRedirect("/listing_list")
 	else:
 		form = ListingForm()
+		pictureFormSet = ListingPictureFormSet(queryset=ListingPicture.objects.none())
 
-	return render(request, 'blog/listing_new.html', {'form': form})
+	return render(request, 'blog/listing_new.html', {'form': form, 'pictureFormSet': pictureFormSet})

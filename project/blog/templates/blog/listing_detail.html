@@ -5,6 +5,20 @@
 <div class="listing">
 	<h1>{{ listing.title }}</h1>
 	<p>{{ listing.created_date }}</p>
+
+	<!-- This is a div that holds all the images in the listing as thumbnails -->
+	<div class="tray">
+		{% for pic in pictures %}
+		<img src="{{ MEDIA_URL }}{{ pic.picture }}">
+		{% endfor %}
+	</div>
+
+	<!-- This div holds the selected image (when user hovers over a thumbnail) -->
+	<br>
+	<div class="selected">
+    	<img id="selected" src="">
+	</div>
+
 	<p>{{ listing.text|linebreaks }}</p>
 	<p><a href="{% url 'listing_list' %}" class="btn btn-primary" role="button">Go Back</a></p>
 

@@ -12,7 +12,7 @@
 {% if user.is_authenticated %}
 
 <div class="update-listing">
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {% for field in form %}
         <div class="fieldWrapper">
@@ -23,6 +23,17 @@
             {% endif %}
         </div>
         {% endfor %}
+        {% for img in pictures %}
+        {{ pictures.management_form }}
+        <div class="fieldWrapper">
+            {{ img.label_tag }} {{ img }}
+            <span style="color:red;">{{ img.errors }}</span>
+            {% if img.help_text %}
+            <p class="help">{{ img.help_text|safe }}</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+
         <input type="hidden" name="next" value="{% url 'listing_list' %}" />
         <input type="submit" value="Update" class="btn btn-default" />
     </form>

@@ -63,3 +63,11 @@ input[type="checkbox"].input-validation-error {
 	height: 40%;
 	visibility: hidden;
 }
+
+.listing h1 {
+	overflow: auto;
+}
+
+.thumbnail .caption h3 {
+	overflow: auto;
+}

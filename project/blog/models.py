@@ -10,6 +10,7 @@ class Listing(models.Model):
 	# Each model has its own attributes.
 	key = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 	author = models.ForeignKey('auth.User')
+	price = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
 	title = models.CharField(max_length=200)
 	text = models.TextField()
 	created_date = models.DateTimeField(default=timezone.now)
@@ -24,3 +25,9 @@ class Listing(models.Model):
 
 	def __str__(self):
 		return self.title
+
+# A Many to one model for Listing. Represents pictures in a Listing.
+class ListingPicture(models.Model):
+	# Automatically uploads to the media/ directory.
+	picture = models.ImageField(upload_to='', blank=True)
+	picture_id = models.ForeignKey(Listing)

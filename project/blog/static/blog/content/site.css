@@ -71,3 +71,11 @@ input[type="checkbox"].input-validation-error {
 .thumbnail .caption h3 {
 	overflow: auto;
 }
+
+.navbar-collapse {
+	text-align: center;
+}
+
+.search {
+	display: inline-block;
+}

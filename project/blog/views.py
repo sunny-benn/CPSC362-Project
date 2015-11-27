@@ -1,4 +1,5 @@
-﻿from django.shortcuts import render, get_object_or_404
+﻿import os
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse_lazy, reverse
@@ -13,20 +14,40 @@ from django.views.generic import View
 from django.views.generic.edit import UpdateView, DeleteView
 from django.views.generic.detail import SingleObjectMixin
 
+from django.core.files.uploadedfile import InMemoryUploadedFile
+
 # This function takes a formset, cleans it, enumerates it, and saves the corresponding object to the database. 
 # This function is not a view; just providing a service.
 def savePictureFormToDB(pictureFormSet, listing):
 	# Get data from the form
 	cleaned_data = pictureFormSet.cleaned_data
+	print("cleaned_data:", cleaned_data)
 
 	# For each picture the user uploads, create a corresponding ListingPicture object
 	for index, pic in enumerate(pictureFormSet):
+		# If the form is empty, break out of this loop.
 		if cleaned_data[index] == {}:
 			break
-		imgPath = cleaned_data[index]['picture']
-		print(imgPath)
-		picture = ListingPicture.objects.create(picture=imgPath, picture_id=listing)
-		picture.save()	
+
+		clean_pic = cleaned_data[index]['picture']
+		clean_id = cleaned_data[index]['id']
+
+		# If the user checked the "Clear" check-box, delete the image.
+		if clean_pic == False:
+			os.remove(clean_id.picture.path)
+			clean_id.delete()
+		
+		# This checks if the image is the one that was uploaded (instance of InMemoryUploadedFile). 
+		# If we do not have this check, we will create duplicates,
+		# since the code will add every image from the form (including existing ones).
+		# Images that have already been uploaded are instances of ImageFieldFile.
+		elif not isinstance(clean_pic, InMemoryUploadedFile):
+			continue
+
+		# If the image is an instance of InMemoryUploadedFile, save to DB.
+		else:
+			picture = ListingPicture.objects.create(picture=clean_pic, picture_id=listing)
+			picture.save()
 	return		
 
 # Defining a generic editing views for handling when the user wants to edit/update their listing.
@@ -50,8 +71,11 @@ class ListingUpdate(UpdateView):
 		self.object = get_object_or_404(Listing, pk=listing_id)
 		if request.user == self.object.author:
 			# Save updated picture form to database if there's been a change
-			if pictureFormSet.has_changed():
+			if pictureFormSet.is_valid() and pictureFormSet.has_changed():
+				print("valid and has changed")
 				savePictureFormToDB(pictureFormSet, self.object)
+			else:
+				print("errors:", pictureFormSet.errors)
 			return super(ListingUpdate, self).post(request, listing_id)
 		else:
 			# Return to main page if user tries perform an unauthorized action.

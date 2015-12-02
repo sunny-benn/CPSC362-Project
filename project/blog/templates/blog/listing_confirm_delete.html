@@ -13,6 +13,7 @@
 
 <div class="delete-listing">
     <form method="POST">
+    	<p>Are you sure you want to delete your listing?</p>
         {% csrf_token %}
         <input type="hidden" name="next" value="{% url 'listing_list' %}" />
         <input type="submit" value="Delete" class="btn btn-default" />

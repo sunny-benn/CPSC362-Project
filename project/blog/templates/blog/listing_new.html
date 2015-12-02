@@ -11,12 +11,13 @@
 </div>
 {% if user.is_authenticated %}
 
-<div class="create-listing">
+<div class="form-horizontal create-listing">
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {% for field in form %}
-        <div class="fieldWrapper">
-            {{ field.label_tag }} {{ field }}
+        <div class="form-group">
+            <label class="control-label col-sm-1">{{ field.label_tag }}</label>
+            <div class="col-sm-11">{{ field }}</div>
             <span style="color:red;">{{ field.errors }}</span>
             {% if field.help_text %}
             <p class="help">{{ field.help_text|safe }}</p>
@@ -25,17 +26,21 @@
         {% endfor %}
         {% for img in pictureFormSet %}
         {{ pictureFormSet.management_form }}
-        <div class="fieldWrapper">
-            {{ img.label_tag }} {{ img }}
+        <div class="form-group">
+            <label class="control-label col-sm-1">{{ img.label_tag }}</label>
+            <div class="col-sm-11">{{ img }}</div>
             <span style="color:red;">{{ img.errors }}</span>
             {% if img.help_text %}
             <p class="help">{{ img.help_text|safe }}</p>
             {% endif %}
         </div>
         {% endfor %}
-
-        <input type="hidden" name="next" value="{% url 'listing_list' %}" />
-        <input type="submit" value="Create" class="btn btn-default" />
+        <div class="form-group">
+            <div class="col-md-offset-1 col-md-11">
+                <input type="hidden" name="next" value="{% url 'listing_list' %}" />
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
     </form>
 </div>
 

@@ -22,8 +22,12 @@
                         {{ form.password }}
                     </div>
                 </div>
+                
                 <div class="form-group">
                     <div class="col-md-offset-4 col-md-8">
+                        {% if form.errors %}
+                        <p class="validation-summary-errors">Please enter both a user name and password.</p>
+                        {% endif %}
                         <input type="hidden" name="next" value="/" />
                         <input type="submit" value="Register" class="btn btn-default" />
                     </div>

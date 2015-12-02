@@ -1,8 +1,17 @@
-﻿body {
-	padding-top: 70px;
-	padding-bottom: 20px;
+﻿html {
+  position: relative;
+  min-height: 100%;
 }
 
+body {
+	padding-top: 70px;
+	padding-bottom: 40px;
+}
+
+.navbar-brand {
+	font-size: 18pt;
+	font-weight: bold;
+}
 /* Set padding to keep content from hitting the edges */
 .body-content {
 	padding-left: 15px;
@@ -10,12 +19,16 @@
 }
 
 .footer {
-  position: fixed;
+  position: absolute;
   bottom: 0;
   /* Set the fixed height of the footer here */
-  height: 20px;
+  height: 30px;
+  background-color: #ffffff;
 }
 
+.page-header {
+	margin-top: 0px;
+}
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
@@ -23,6 +36,9 @@ textarea {
 	max-width: 280px;
 }
 
+.btn {
+	margin-right: 10px;
+}
 /* styles for validation helpers */
 .field-validation-error {
 	color: #b94a48;
@@ -64,10 +80,22 @@ input[type="checkbox"].input-validation-error {
 	visibility: hidden;
 }
 
-.listing h1 {
-	overflow: auto;
+.listing-detail h1 {
+	word-wrap: break-word;
+}s
+.thumbnail {
+	padding-bottom: 20px;
+}
+.thumbnail .caption h3 {
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
-.thumbnail .caption h3 {
-	overflow: auto;
+.list-thumb {
+	min-height: 165px;
+	max-height: 165px;
+}
+
+.list-element {
+	padding-bottom: 25px;
 }

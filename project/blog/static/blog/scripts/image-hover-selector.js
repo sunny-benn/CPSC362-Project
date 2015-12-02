@@ -1,3 +1,9 @@
+// If the tray has no images in it, then hide it.
+if ($('.tray img').length === 0) {
+	$('.tray').hide();
+	$('.selected').hide();
+}
+
 // Show the image in the tray that the user has hovered over 
 var srcToCopy = '';
 

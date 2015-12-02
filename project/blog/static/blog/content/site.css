@@ -1,13 +1,16 @@
 ﻿html {
   position: relative;
   min-height: 100%;
+  font-family: 'Open Sans', sans-serif;
 }
 
 body {
 	padding-top: 70px;
 	padding-bottom: 40px;
 }
-
+.navbar {
+	font-style: 
+}
 .navbar-brand {
 	font-size: 18pt;
 	font-weight: bold;
@@ -75,14 +78,16 @@ input[type="checkbox"].input-validation-error {
 }
 
 .selected #selected {
-	width: 40%;
+	width: auto;
 	height: 40%;
 	visibility: hidden;
+	max-height: 500px;
+	min-height: 500px;
 }
 
 .listing-detail h1 {
 	word-wrap: break-word;
-}s
+}
 .thumbnail {
 	padding-bottom: 20px;
 }

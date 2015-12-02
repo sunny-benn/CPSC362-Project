@@ -10,7 +10,12 @@
 	<h1>{{ listing.title }}</h1>
 	<h3>${{ listing.price }}</h3>
 	
-
+	<!-- This div holds the selected image (when user hovers over a thumbnail) -->
+	
+	<div class="selected">
+    	<img id="selected" src="">
+	</div>
+	<br>
 	<!-- This is a div that holds all the images in the listing as thumbnails -->
 	<div class="tray">
 		{% for pic in pictures %}
@@ -18,12 +23,9 @@
 		{% endfor %}
 	</div>
 
-	<!-- This div holds the selected image (when user hovers over a thumbnail) -->
-	<br>
-	<div class="selected">
-    	<img id="selected" src="">
-	</div>
+	<h3>Description</h3>
 	<p>{{ listing.text|linebreaks }}</p>
+	<br>
 	<p>Created: {{ listing.created_date }}</p>
 	<p><a href="{% url 'listing_list' %}" class="btn btn-primary" role="button">Go Back</a></p>
 

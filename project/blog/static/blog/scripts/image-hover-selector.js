@@ -1,5 +1,9 @@
+
 // Show the image in the tray that the user has hovered over 
 var srcToCopy = '';
+srcToCopy = $('.tray img').first().attr('src');
+$('.selected #selected').attr('src', srcToCopy);
+$('.selected #selected').css('visibility', 'visible');
 
 // Select the images in the tray
 $('.tray img').hover(

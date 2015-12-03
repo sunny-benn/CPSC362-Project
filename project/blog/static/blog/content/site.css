@@ -77,12 +77,13 @@ input[type="checkbox"].input-validation-error {
 	height: 5%;
 }
 
+.selected {
+	height: 500px;
+}
+
 .selected #selected {
 	width: auto;
-	height: 40%;
-	visibility: hidden;
-	max-height: 500px;
-	min-height: 500px;
+	height: 100%;
 }
 
 .listing-detail h1 {

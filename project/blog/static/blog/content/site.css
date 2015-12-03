@@ -104,3 +104,11 @@ input[type="checkbox"].input-validation-error {
 .list-element {
 	padding-bottom: 25px;
 }
+
+.navbar-collapse {
+	text-align: center;
+}
+
+.search {
+	display: inline-block;
+}

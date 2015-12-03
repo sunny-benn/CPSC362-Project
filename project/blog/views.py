@@ -16,6 +16,8 @@ from django.views.generic.detail import SingleObjectMixin
 
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
+from django.db.models import Q
+
 # This function takes a formset, cleans it, enumerates it, and saves the corresponding object to the database. 
 # This function is not a view; just providing a service.
 def savePictureFormToDB(pictureFormSet, listing):
@@ -173,3 +175,17 @@ def listing_new(request):
 		pictureFormSet = ListingPictureFormSet(queryset=ListingPicture.objects.none())
 
 	return render(request, 'blog/listing_new.html', {'form': form, 'pictureFormSet': pictureFormSet})
+
+ # This view is for handling the search queries.
+ # Utilizing Q objects provided by Django:
+ # https://docs.djangoproject.com/en/1.8/topics/db/queries/#complex-lookups-with-q-objects
+def search(request):
+	if request.method == "GET":
+		query = request.GET.get('search_box', None)
+		results = Listing.objects.filter(
+				Q(title__contains=query) | Q(text__contains=query),
+				published_date__lte=timezone.now()
+			).order_by('published_date')
+		
+		# Return results to already created listing_list template; no need to have an extra template.
+		return render(request, 'blog/listing_list.html', {'listings': results})

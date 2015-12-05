@@ -10,6 +10,7 @@ from .views import ListingUpdate, ListingDelete
 # If you check views.py, you'll notice that we are defining "base".
 urlpatterns = [
 	url(r'^$', views.base, name='base'),
+	url(r'^about$', views.about, name='about'),
 	url(r'^register$', views.register, name='register'),
     url(r'^listing_list$', views.listing_list, name='listing_list'),
 

@@ -1,14 +1,15 @@
 ﻿{% extends "blog/base.html" %}
 {% load staticfiles %}
 {% block content %}
-
 <div class="jumbotron" style="background: url({% static 'blog/img/cover.jpg' %}); background-size: cover;">
     <h1>Market362</h1>
     <p class="lead">Market362 is a simple platform to buy and sell products.</p>
     <p><a class="btn btn-default btn-lg" href="{% url 'listing_list' %}">Browse &raquo;</a></p>
     <br><br>
 </div>
-
+{% if user.is_authenticated %}
+<h1 style="text-align: center;">Welcome, {{ user.username }}!</h1>
+{% else %}
 <div class="row">
     <div class="col-xs-12 col-md-4">
         <h2>Sign Up</h2>
@@ -23,8 +24,10 @@
     <div class="col-xs-12 col-md-4">
         <h2>About Us</h2>
         <p>Learn more about the team that created Market362</p>
-        <p><a class="btn btn-default" href="">Learn More &raquo;</a></p>
+        <p><a class="btn btn-default" href="{% url 'about' %}">Learn More &raquo;</a></p>
     </div>
 </div>
+{% endif %}
+
 
 {% endblock %}

@@ -5,7 +5,7 @@
 <ul class="nav navbar-nav navbar-right">
 
     {% if user.is_authenticated %}
-    <li class="navbar-text">You are logged in as {{ user.username }}</li>
+    <li class="navbar-text">You are logged in as <span style="color:white;">{{ user.username }}</span></li>
     <li><a href="{% url 'logout' %}">Log Out</a></li>
 
     {% else %}

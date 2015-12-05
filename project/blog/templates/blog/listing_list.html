@@ -12,6 +12,10 @@
 {% if user.is_authenticated %}
     <a href="{% url 'listing_new' %}" class="btn btn-default" role="button">+ Create Listing</a>
 {% endif %}
+{% if not listings %}
+	<br><br>
+	<h4>No listings found.</h4>
+{% else %}
 <div class="listing">
 	<div class="row">
 
@@ -42,5 +46,5 @@
 	{% endfor %}
 	</div>
 </div>
-
+{% endif %}
 {% endblock %}

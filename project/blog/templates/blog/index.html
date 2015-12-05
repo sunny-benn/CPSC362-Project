@@ -1,29 +1,29 @@
 ﻿{% extends "blog/base.html" %}
-
+{% load staticfiles %}
 {% block content %}
 
-<div class="jumbotron">
+<div class="jumbotron" style="background: url({% static 'blog/img/cover.jpg' %}); background-size: cover;">
     <h1>Market362</h1>
     <p class="lead">Market362 is a simple platform to buy and sell products.</p>
+    <p><a class="btn btn-default btn-lg" href="{% url 'listing_list' %}">Browse &raquo;</a></p>
+    <br><br>
 </div>
 
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            You can start searching through the listings without an account  
-        </p>
-        <p><a class="btn btn-default" href="{% url 'listing_list' %}">Browse &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Create an account</h2>
-        <p>If you want to create a listing, create a free account and start listing within minutes</p>
+    <div class="col-xs-12 col-md-4">
+        <h2>Sign Up</h2>
+        <p>Want to post an ad for an item you want to sell? Create a free account to start posting</p>
         <p><a class="btn btn-default" href="{% url 'register' %}">Register &raquo;</a></p>
     </div>
-    <div class="col-md-4">
-        <h2>Already have an account?</h2>
-        <p>Sign in and start listing</p>
+    <div class="col-xs-12 col-md-4">
+        <h2>Existing Users</h2>
+        <p>Already signed up? Sign in to create, edit or delete your listings</p>
         <p><a class="btn btn-default" href="{% url 'login' %}">Log In &raquo;</a></p>
+    </div>
+    <div class="col-xs-12 col-md-4">
+        <h2>About Us</h2>
+        <p>Learn more about the team that created Market362</p>
+        <p><a class="btn btn-default" href="">Learn More &raquo;</a></p>
     </div>
 </div>
 

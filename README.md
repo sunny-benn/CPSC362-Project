@@ -11,6 +11,7 @@
 
  - Django 1.8
  - Pillow 3.0
+ - [django-notificaitons 0.7.1](https://github.com/django-notifications/django-notifications)
 
  Note: If you run into errors installing the above requirements, try doing the following:
  	- $ sudo apt-get install python-dev python3-dev libjpeg-dev

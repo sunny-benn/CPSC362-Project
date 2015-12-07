@@ -39,9 +39,6 @@ textarea {
 	max-width: 280px;
 }
 
-.btn {
-	margin-right: 10px;
-}
 /* styles for validation helpers */
 .field-validation-error {
 	color: #b94a48;
@@ -106,10 +103,29 @@ input[type="checkbox"].input-validation-error {
 	padding-bottom: 25px;
 }
 
-.navbar-collapse {
-	text-align: center;
+#live-notify-list {
+	padding: .5em;
+	width: 40em;
+	overflow: auto;
 }
 
-.search {
-	display: inline-block;
+#live-notify-list a {
+	text-decoration: none;
+	color: black;
+}
+
+#live-notify-list a li:hover {
+	background-color: lightgray;
+}
+
+#live-notify-list a li label {
+	float: right;
+}
+
+.navbar-inverse .navbar-nav>li>a, #live_notify_badge {
+	padding: 0px;
+}
+
+#interested_list {
+	padding: .5em;
 }

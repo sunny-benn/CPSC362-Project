@@ -4,14 +4,23 @@
 
 <div class="listing-detail">
 	{% if request.user == listing.author %}
-	<p><a href="{% url 'listing_delete' listing_id=listing.pk %}" class="btn btn-default" role="button">Delete</a>
-	<a href="{% url 'listing_update' listing_id=listing.pk %}" class="btn btn-default" role="button">Edit</a></p>
+	<div class="btn-group">
+		<a href="{% url 'listing_delete' listing_id=listing.pk %}" class="btn btn-default" role="button">Delete</a>
+		<a href="{% url 'listing_update' listing_id=listing.pk %}" class="btn btn-default" role="button">Edit</a>
+		<div class="btn-group">
+			<button onclick="getInterestedUsers();" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Who's Interested <span class="caret"></span></button>
+			<ul id="interested_list" class="dropdown-menu" role="menu"></ul>
+		</div>
+	</div>
+	{% else %}
+	<div class="btn-group">
+		<a id="interestedBtn" onclick="sendNotification();" class="btn btn-default" role="button">I'm Interested</a>
+	</div>
 	{% endif %}
 	<h1>{{ listing.title }}</h1>
 	<h3>${{ listing.price }}</h3>
 	
 	<!-- This div holds the selected image (when user hovers over a thumbnail) -->
-	
 	<div class="selected">
     	<img id="selected" src="">
 	</div>
@@ -28,8 +37,6 @@
 	<br>
 	<p>Created: {{ listing.created_date }}</p>
 	<p><a href="{% url 'listing_list' %}" class="btn btn-primary" role="button">Go Back</a></p>
-
-	<!-- Here we check if the user logged in is the author so that they may manage their listing. -->
 	
 </div>
 

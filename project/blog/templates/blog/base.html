@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project: Market362</title>
     {% load staticfiles %}
+    {% load notifications_tags %}
     <link rel="stylesheet" type="text/css" href="{% static 'blog/content/bootstrap.min.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'blog/content/site.css' %}" />
 	<link rel="icon" href="{% static 'blog/img/favicon.ico' %}" />
@@ -13,7 +14,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top container-fluid">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -25,13 +26,16 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="{% url 'listing_list' %}">Browse</a></li>
+                    <li class="navbar-text"><a href="{% url 'listing_list' %}">Browse</a></li>
+                    <li>
+                        <form class="navbar-form navbar-left" type="get" action="{% url 'search' %}">
+                            <div class="form-group">
+                                <input id="search_box" type="text" name="search_box"  placeholder="Search..." >
+                            </div>
+                        </form>
+                    </li>
 				</ul>
-				<div class="search">
-					<form type="get" action="{% url 'search' %}">
-                    	<input id="search_box" type="text" name="search_box"  placeholder="Search..." >
-                	</form>
-				</div>
+			
 				{% include 'blog/loginpartial.html' %}
 			</div>
 		</div>
@@ -52,6 +56,178 @@
     <script src="{% static 'blog/scripts/bootstrap.js' %}"></script>
     <script src="{% static 'blog/scripts/respond.js' %}"></script>
     <script src="{% static 'blog/scripts/image-hover-selector.js' %}"></script>
+    
+    <!-- Include the following notification scripts if a user is logged in -->
+    {% if request.user.is_authenticated %}
+    <script src="{% static 'notifications/notify.js' %}"></script>
+    {% register_notify_callbacks callbacks='fill_notification_badge' %}
+    <script type="text/javascript">
+        // Notification menu script for adding/removing notifications.
+
+        // <seen> holds the slug of every notification we've received.
+        // <urlDelete> is a hashmap that maps a slug -> api url to mark notification as read.  
+        var seen = [];
+        var urlDelete = {};
+        var timer;
+
+        function removeNotification(elem) {
+            // Get slug key from the element's id
+            var key = $(elem)[0].id.replace("notification", '');
+            elem.off();
+            elem.remove();
+            // console.log("element removed at urlDelete[" + key + "] = " + urlDelete[key]);
+
+            $.ajax({
+                url: urlDelete[key],
+                type: 'get', 
+                success: function(data) {
+                    // console.log("marked as read");
+                },
+                failure: function(data) { 
+                    // console.log('failure to mark as read');
+                }
+            }); 
+
+            // Update data; from notifiy.js
+            fetch_api_data();
+        }
+
+        function insertNotifications(data) {
+            for (var i = 0; i < data.unread_list.length; i++) {
+                var slug = data.unread_list[i].slug
+                urlDelete[slug] = data.unread_list[i].url_delete;
+                if (seen.indexOf(slug) === -1) {
+                    
+                    // Append to the list a "<a><li></li></a>"
+                    var tagsAppend = "<li id='notification" +
+                        slug + "' > " + data.unread_list[i].description + 
+                        "<label class='label label-primary'>" + 
+                        "<span class='glyphicon glyphicon-ok' aria-hidden='true'></span></label> </li>"
+
+                    var elem = $('#live-notify-list').append(tagsAppend).find('#notification' + slug);
+                    elem.wrap("<a href='#'></a>");
+
+                    $('#notification' + slug).append("<br><p role='separator' class='divider'></p>");
+
+                    // console.log("inserted element with slug " + slug);
+
+                    seen.push(slug);                  
+                }
+                else {
+                   var updateElem = $('#live-notify-list').find('#notification' + slug);
+                   updateElem.html(data.unread_list[i].description + 
+                        "<label class='label label-primary'>" + 
+                        "<span class='glyphicon glyphicon-ok' aria-hidden='true'></span></label>" + 
+                        "<br><p role='separator' class='divider'></p>");
+                }
+            }
+            fetch_api_data();
+        }
+
+        function refreshNotifications() {
+            $.ajax({
+                url: "{% url 'notifications:live_unread_notification_list' %}",
+                type: 'get', 
+                success: function(data) {
+                    // console.log("success");
+                    insertNotifications(data);
+                    clearTimeout(timer);
+                    timer = setTimeout(refreshNotifications, 5000);
+                },
+                failure: function(data) { 
+                    setTimeout(refreshNotifications, 20000);
+                }
+            }); 
+        }
+        
+        $( document ).ready(function() {
+            //setTimeout(refreshNotifications, 3000);
+            refreshNotifications();
+            $( document ).on("click", "[id^='notification']", function() {
+                // console.log("onclick " + $(this));
+                removeNotification($(this));
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        // Script to send notifications
+
+        // The two following functions are for CSRF protection necessary for AJAX requests in Django.
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getCookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+        // -----------------------------------------------------------------------------------------
+        // -----------------------------------------------------------------------------------------
+
+        // The server needs to know which listing the user is sending a notification from.
+        // This will send the listing id back to the server. 
+        function sendNotification() {
+            var listingID = "{{ listing.pk }}";
+            var URL = "{% url 'send_notification' %}"
+
+            var data = {'listingID': listingID};
+            $.post(URL, data, function(response){
+                if(response === 'success'){ 
+                    console.log('Yay!');
+                    $('#interestedBtn').addClass("btn-success disabled").text("Sent!");
+                }
+                else{ console.log('Error! :('); }
+            });
+        }
+
+        function getInterestedUsers() {
+            var listingID = "{{ listing.pk }}";
+            var URL = "{% url 'get_interested_users' %}"
+
+            var data = {'listingID': listingID};
+            $.post(URL, data, function(data){
+                console.log(data);
+                if (data.response === 'success') {
+                    console.log("getInterestedUsers success " + data.unread_list);
+                    if (data.unread_list.length === 0) {
+                        $('#interested_list').html("No one interested...yet");
+                        return;
+                    }
+
+                    for (var i = 0; i < data.unread_list.length; i++) {                            
+                        // Append to the list a "<a><li></li></a>"
+                        $('#interested_list').html(data.unread_list[i].description + 
+                            "<br><p role='separator' class='divider'></p>");
+                    }
+                }
+                else {
+                    console.log("fail to getInterestedUsers");
+                }
+            });
+        }
+    </script>
+    {% endif %}
 
 </body>
 </html>

@@ -1,2 +1,6 @@
 Django==1.8
 Pillow==3.0.0
+django-model-utils==2.3.1
+django-notifications-hq==0.7.1
+jsonfield==1.0.3
+six==1.10.0

@@ -9,24 +9,39 @@ body {
 	padding-bottom: 40px;
 }
 .navbar {
-	font-style: 
+	font-weight: 600;
 }
 .navbar-brand {
-	font-size: 18pt;
-	font-weight: bold;
+	font-size: 20pt;
+	font-weight: 700;
 }
 /* Set padding to keep content from hitting the edges */
 .body-content {
 	padding-left: 15px;
 	padding-right: 15px;
 }
+.jumbotron {
+	color: #ffffff;
+	text-align: center;
+	padding-top: 70px;
+}
+.jumbotron h1{
+	font-weight: 600;
+}
+
+.col-centered {
+  	display: block;
+  	margin-left: auto;
+  	margin-right: auto;
+  	text-align: center;
+}
 
 .footer {
-  position: absolute;
-  bottom: 0;
-  /* Set the fixed height of the footer here */
-  height: 30px;
-  background-color: #ffffff;
+	position: absolute;
+  	bottom: 0;
+  	/* Set the fixed height of the footer here */
+  	height: 30px;
+  	background-color: #ffffff;
 }
 
 .page-header {
@@ -86,6 +101,7 @@ input[type="checkbox"].input-validation-error {
 .listing-detail h1 {
 	word-wrap: break-word;
 }
+
 .thumbnail {
 	padding-bottom: 20px;
 }

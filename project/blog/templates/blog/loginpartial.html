@@ -6,7 +6,7 @@
 
     {% if user.is_authenticated %}
     {% load notifications_tags %}
-    <li class="navbar-text">Hello {{ user.username }}!</li>
+    <li class="navbar-text">Hello <span style="color:white;">{{ user.username }}</span>!</li>
 
     <li class="navbar-text dropdown">
     	<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Notifications

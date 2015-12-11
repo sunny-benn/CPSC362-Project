@@ -3,10 +3,13 @@
 {% block content %}
 
 <div class="listing-detail">
+	<div class="page-header">
+  		<h1>{{ listing.title }}</h1>
+	</div>
 	{% if request.user == listing.author %}
 	<div class="btn-group">
-		<a href="{% url 'listing_delete' listing_id=listing.pk %}" class="btn btn-default" role="button">Delete</a>
 		<a href="{% url 'listing_update' listing_id=listing.pk %}" class="btn btn-default" role="button">Edit</a>
+		<a href="{% url 'listing_delete' listing_id=listing.pk %}" class="btn btn-default" role="button">Delete</a>
 		<div class="btn-group">
 			<button onclick="getInterestedUsers();" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Who's Interested <span class="caret"></span></button>
 			<ul id="interested_list" class="dropdown-menu" role="menu"></ul>
@@ -17,7 +20,6 @@
 		<a id="interestedBtn" onclick="sendNotification();" class="btn btn-default" role="button">I'm Interested</a>
 	</div>
 	{% endif %}
-	<h1>{{ listing.title }}</h1>
 	<h3>${{ listing.price }}</h3>
 	
 	<!-- This div holds the selected image (when user hovers over a thumbnail) -->
@@ -31,10 +33,13 @@
 		<img src="{{ MEDIA_URL }}{{ pic.picture }}">
 		{% endfor %}
 	</div>
-
-	<h3>Description</h3>
+	<div class="page-header">
+  		<h3>Item Description</h3>
+	</div>
 	<p>{{ listing.text|linebreaks }}</p>
 	<br>
+	<hr>
+	<p>Seller: {{ listing.author }}</p>
 	<p>Created: {{ listing.created_date }}</p>
 	<p><a href="{% url 'listing_list' %}" class="btn btn-primary" role="button">Go Back</a></p>
 	

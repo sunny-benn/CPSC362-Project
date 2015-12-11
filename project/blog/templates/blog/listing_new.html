@@ -16,27 +16,28 @@
         {% csrf_token %}
         {% for field in form %}
         <div class="form-group">
-            <label class="control-label col-sm-1">{{ field.label_tag }}</label>
-            <div class="col-sm-11">{{ field }}</div>
+            <label class="control-label col-sm-2">{{ field.label_tag }}</label>
+            <div class="col-sm-4">{{ field }}</div>
             <span style="color:red;">{{ field.errors }}</span>
             {% if field.help_text %}
-            <p class="help">{{ field.help_text|safe }}</p>
+            <p class="help col-sm-6"><span class="pull-left">{{ field.help_text|safe }}</span></p>
             {% endif %}
         </div>
         {% endfor %}
         {% for img in pictureFormSet %}
         {{ pictureFormSet.management_form }}
         <div class="form-group">
-            <label class="control-label col-sm-1">{{ img.label_tag }}</label>
-            <div class="col-sm-11">{{ img }}</div>
+            <label class="control-label col-sm-2">{{ img.label_tag }}</label>
+            <div class="col-sm-4">{{ img }}</div>
             <span style="color:red;">{{ img.errors }}</span>
             {% if img.help_text %}
-            <p class="help">{{ img.help_text|safe }}</p>
+            <p class="help col-sm-6"><span class="pull-left">{{ img.help_text|safe }}</span></p>
             {% endif %}
         </div>
         {% endfor %}
+        <br>
         <div class="form-group">
-            <div class="col-md-offset-1 col-md-11">
+            <div class="col-sm-offset-2 col-sm-10">
                 <input type="hidden" name="next" value="{% url 'listing_list' %}" />
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>

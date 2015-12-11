@@ -128,6 +128,10 @@ def base(request):
 	# We return a rendered index.html
 	return render(request, 'blog/index.html', {})
 
+# Define a basic about page.
+def about(request):
+	return render(request, 'blog/about.html', {})
+
 # This is for registering a new account on the site.
 def register(request):
 	if request.method == "POST":

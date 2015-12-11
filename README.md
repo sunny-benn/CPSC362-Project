@@ -1,5 +1,10 @@
 # Team Interpreters 362 Project
 
+## Note regarding Notifications:
+	
+  - The `notifications` folder in the root directory needs to be copied over to your `env/lib/python3.4/site-packages/` directory (overwrite the existing `notifications`). The reason for this is because I heavily modied the API of the plugin.
+
+
 ## Requirements to install locally:
 
  - SublimeText 3 or PyCharm (or your favorite text editor) 

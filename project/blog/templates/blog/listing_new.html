@@ -17,10 +17,10 @@
         {% for field in form %}
         <div class="form-group">
             <label class="control-label col-sm-2">{{ field.label_tag }}</label>
-            <div class="col-sm-10">{{ field }}</div>
+            <div class="col-sm-4">{{ field }}</div>
             <span style="color:red;">{{ field.errors }}</span>
             {% if field.help_text %}
-            <p class="help">{{ field.help_text|safe }}</p>
+            <p class="help col-sm-6"><span class="pull-left">{{ field.help_text|safe }}</span></p>
             {% endif %}
         </div>
         {% endfor %}
@@ -28,10 +28,10 @@
         {{ pictureFormSet.management_form }}
         <div class="form-group">
             <label class="control-label col-sm-2">{{ img.label_tag }}</label>
-            <div class="col-sm-10">{{ img }}</div>
+            <div class="col-sm-4">{{ img }}</div>
             <span style="color:red;">{{ img.errors }}</span>
             {% if img.help_text %}
-            <p class="help">{{ img.help_text|safe }}</p>
+            <p class="help col-sm-6"><span class="pull-left">{{ img.help_text|safe }}</span></p>
             {% endif %}
         </div>
         {% endfor %}

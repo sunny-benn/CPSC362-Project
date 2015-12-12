@@ -15,10 +15,11 @@
 			<ul id="interested_list" class="dropdown-menu" role="menu"></ul>
 		</div>
 	</div>
-	{% else %}
+	{% elif request.user.is_authenticated %}
 	<div class="btn-group">
 		<a id="interestedBtn" onclick="sendNotification();" class="btn btn-default" role="button">I'm Interested</a>
 	</div>
+	{% else %}
 	{% endif %}
 	<h3>${{ listing.price }}</h3>
 	

@@ -27,13 +27,6 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="navbar-text"><a href="{% url 'listing_list' %}">Browse</a></li>
-                    <li>
-                        <form class="navbar-form navbar-left" type="get" action="{% url 'search' %}">
-                            <div class="form-group">
-                                <input id="search_box" type="text" name="search_box"  placeholder="Search..." >
-                            </div>
-                        </form>
-                    </li>
 				</ul>
                 <form class="navbar-form navbar-left" role="search" type="get" action="{% url 'search' %}">
                     <div class="form-group">

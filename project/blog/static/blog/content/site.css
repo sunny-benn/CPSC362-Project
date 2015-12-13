@@ -8,12 +8,17 @@ body {
 	padding-top: 70px;
 	padding-bottom: 40px;
 }
+
 .navbar {
 	font-weight: 600;
 }
 .navbar-brand {
 	font-size: 20pt;
 	font-weight: 700;
+}
+.notifications {
+    margin-top: 8px;
+    margin-left: 4px;
 }
 /* Set padding to keep content from hitting the edges */
 .body-content {
@@ -117,6 +122,10 @@ input[type="checkbox"].input-validation-error {
 
 .list-element {
 	padding-bottom: 25px;
+}
+
+.badge {
+
 }
 
 #live-notify-list {

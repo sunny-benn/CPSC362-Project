@@ -137,7 +137,7 @@ def register(request):
 	if request.method == "POST":
 		form = UserForm(request.POST)
 		if form.is_valid():
-			username, password = form.cleaned_data['username'], form.cleaned_data['password']
+			username, password = form.clean_username(), form.cleaned_data['password']
 			user = User.objects.create_user(username=username, password=password)
 			user.is_active = True
 			user.save()
@@ -170,7 +170,7 @@ def listing_new(request):
 		pictureFormSet = ListingPictureFormSet(request.POST, request.FILES, queryset=ListingPicture.objects.none())
 
 		if form.is_valid():
-			title, text, price = form.cleaned_data['title'], form.cleaned_data['text'], form.cleaned_data['price']
+			title, text, price = form.cleaned_data['title'], form.cleaned_data['text'], form.clean_price()
 			listing = Listing.objects.create(author=request.user, title=title, text=text, price=price)
 			listing.publish()
 

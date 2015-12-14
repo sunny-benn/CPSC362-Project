@@ -1,4 +1,4 @@
-﻿import os
+import os
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
@@ -22,7 +22,7 @@ from django.db.models import Q
 
 from notifications import notify
 
-# This function takes a formset, cleans it, enumerates it, and saves the corresponding object to the database. 
+# This function takes a formset, cleans it, enumerates it, and saves the corresponding object to the database.
 # This function is not a view; just providing a service.
 def savePictureFormToDB(pictureFormSet, listing):
 	# Get data from the form
@@ -42,8 +42,8 @@ def savePictureFormToDB(pictureFormSet, listing):
 		if clean_pic == False:
 			os.remove(clean_id.picture.path)
 			clean_id.delete()
-		
-		# This checks if the image is the one that was uploaded (instance of InMemoryUploadedFile). 
+
+		# This checks if the image is the one that was uploaded (instance of InMemoryUploadedFile).
 		# If we do not have this check, we will create duplicates,
 		# since the code will add every image from the form (including existing ones).
 		# Images that have already been uploaded are instances of ImageFieldFile.
@@ -92,7 +92,7 @@ class ListingUpdate(UpdateView):
 		# Get context object from UpdateView.
 		context = super(ListingUpdate, self).get_context_data(**kwargs)
 		try:
-			# Build a picture formset based on the listing the user is editing. 
+			# Build a picture formset based on the listing the user is editing.
 			pictureFormSet = self.ListingPictureFormSet(queryset=ListingPicture.objects.filter(picture_id=context['listing'].key))
 			# Pass it to the context object so it's accessible to the template.
 			# This is equivalent to render(request, <template path>, {'pictures': pictureFormSet})
@@ -155,7 +155,7 @@ def listing_list(request):
 	return render(request, 'blog/listing_list.html', {'listings': listings})
 
 # For viewing a listing individually. We load the primary key of the listing from the database.
-# Refer to the <a> tag inside listing_list.html 
+# Refer to the <a> tag inside listing_list.html
 def listing_detail(request, listing_id):
 	listing = get_object_or_404(Listing, pk=listing_id)
 	pictures = ListingPicture.objects.filter(picture_id=listing_id)
@@ -188,13 +188,13 @@ def listing_new(request):
 # Utilizing Q objects provided by Django:
 # https://docs.djangoproject.com/en/1.8/topics/db/queries/#complex-lookups-with-q-objects
 def search(request):
-	if request.method == "GET":	
+	if request.method == "GET":
 		query = request.GET.get('search_box', None)
 		results = Listing.objects.filter(
 				Q(title__contains=query) | Q(text__contains=query),
 				published_date__lte=timezone.now()
 			).order_by('published_date')
-		
+
 		# Return results to already created listing_list template; no need to have an extra template.
 		return render(request, 'blog/listing_list.html', {'listings': results})
 
@@ -204,7 +204,10 @@ def mark_all_as_read(request):
 
 	return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
+from django.views.decorators.csrf import csrf_exempt
+
 # AJAX View to return the list of users who are interested in the listing.
+@csrf_exempt
 def get_interested_users(request):
 	# Make sure the request is AJAX and POST
 	if request.is_ajax() and request.method == 'POST':
@@ -216,7 +219,7 @@ def get_interested_users(request):
 					struct = model_to_dict(n)
 					if n.actor:
 						struct['actor'] = str(n.actor)
-					
+
 					struct['description'] = "User " + struct['actor'] + " is interested"
 
 					unread_list.append(struct)
@@ -233,12 +236,13 @@ def get_interested_users(request):
 					'response': 'fail',
 				}
 				return JsonResponse(data)
-	
+
 	return JsonResponse({'response': 'fail'})
 
 
 
 # AJAX View to send a notification to the author of the listing when a user click the "I'm Interested" button.
+@csrf_exempt
 def send_notification(request):
 	# Make sure the request is AJAX and POST
 	if request.is_ajax() and request.method == 'POST':

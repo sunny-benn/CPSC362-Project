@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -53,7 +53,7 @@
     <script src="{% static 'blog/scripts/bootstrap.js' %}"></script>
     <script src="{% static 'blog/scripts/respond.js' %}"></script>
     <script src="{% static 'blog/scripts/image-hover-selector.js' %}"></script>
-    
+
     <!-- Include the following notification scripts if a user is logged in -->
     {% if request.user.is_authenticated %}
     <script src="{% static 'notifications/notify.js' %}"></script>
@@ -62,7 +62,7 @@
         // Notification menu script for adding/removing notifications.
 
         // <seen> holds the slug of every notification we've received.
-        // <urlDelete> is a hashmap that maps a slug -> api url to mark notification as read.  
+        // <urlDelete> is a hashmap that maps a slug -> api url to mark notification as read.
         var seen = [];
         var urlDelete = {};
         var timer;
@@ -76,14 +76,14 @@
 
             $.ajax({
                 url: urlDelete[key],
-                type: 'get', 
+                type: 'get',
                 success: function(data) {
                     // console.log("marked as read");
                 },
-                failure: function(data) { 
+                failure: function(data) {
                     // console.log('failure to mark as read');
                 }
-            }); 
+            });
 
             // Update data; from notifiy.js
             fetch_api_data();
@@ -94,11 +94,11 @@
                 var slug = data.unread_list[i].slug
                 urlDelete[slug] = data.unread_list[i].url_delete;
                 if (seen.indexOf(slug) === -1) {
-                    
+
                     // Append to the list a "<a><li></li></a>"
                     var tagsAppend = "<li id='notification" +
-                        slug + "' > " + data.unread_list[i].description + 
-                        "<label class='label label-primary'>" + 
+                        slug + "' > " + data.unread_list[i].description +
+                        "<label class='label label-primary'>" +
                         "<span class='glyphicon glyphicon-ok' aria-hidden='true'></span></label> </li>"
 
                     var elem = $('#live-notify-list').append(tagsAppend).find('#notification' + slug);
@@ -108,13 +108,13 @@
 
                     // console.log("inserted element with slug " + slug);
 
-                    seen.push(slug);                  
+                    seen.push(slug);
                 }
                 else {
                    var updateElem = $('#live-notify-list').find('#notification' + slug);
-                   updateElem.html(data.unread_list[i].description + 
-                        "<label class='label label-primary'>" + 
-                        "<span class='glyphicon glyphicon-ok' aria-hidden='true'></span></label>" + 
+                   updateElem.html(data.unread_list[i].description +
+                        "<label class='label label-primary'>" +
+                        "<span class='glyphicon glyphicon-ok' aria-hidden='true'></span></label>" +
                         "<br><p role='separator' class='divider'></p>");
                 }
             }
@@ -124,19 +124,19 @@
         function refreshNotifications() {
             $.ajax({
                 url: "{% url 'notifications:live_unread_notification_list' %}",
-                type: 'get', 
+                type: 'get',
                 success: function(data) {
                     // console.log("success");
                     insertNotifications(data);
                     clearTimeout(timer);
                     timer = setTimeout(refreshNotifications, 5000);
                 },
-                failure: function(data) { 
+                failure: function(data) {
                     setTimeout(refreshNotifications, 20000);
                 }
-            }); 
+            });
         }
-        
+
         $( document ).ready(function() {
             //setTimeout(refreshNotifications, 3000);
             refreshNotifications();
@@ -183,14 +183,14 @@
         // -----------------------------------------------------------------------------------------
 
         // The server needs to know which listing the user is sending a notification from.
-        // This will send the listing id back to the server. 
+        // This will send the listing id back to the server.
         function sendNotification() {
             var listingID = "{{ listing.pk }}";
             var URL = "{% url 'send_notification' %}"
 
             var data = {'listingID': listingID};
             $.post(URL, data, function(response){
-                if(response === 'success'){ 
+                if(response === 'success'){
                     console.log('Yay!');
                     $('#interestedBtn').addClass("btn-success disabled").text("Sent!");
                 }
@@ -212,9 +212,9 @@
                         return;
                     }
 
-                    for (var i = 0; i < data.unread_list.length; i++) {                            
+                    for (var i = 0; i < data.unread_list.length; i++) {
                         // Append to the list a "<a><li></li></a>"
-                        $('#interested_list').html(data.unread_list[i].description + 
+                        $('#interested_list').html(data.unread_list[i].description +
                             "<br><p role='separator' class='divider'></p>");
                     }
                 }

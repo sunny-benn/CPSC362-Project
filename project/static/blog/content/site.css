@@ -1,0 +1,156 @@
+﻿html {
+  position: relative;
+  min-height: 100%;
+  font-family: 'Open Sans', sans-serif;
+}
+
+body {
+	padding-top: 70px;
+	padding-bottom: 40px;
+}
+
+.navbar {
+	font-weight: 600;
+}
+.navbar-brand {
+	font-size: 20pt;
+	font-weight: 700;
+}
+.notifications {
+    margin-top: 8px;
+    margin-left: 4px;
+}
+/* Set padding to keep content from hitting the edges */
+.body-content {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.jumbotron {
+	color: #ffffff;
+	text-align: center;
+	padding-top: 70px;
+}
+.jumbotron h1{
+	font-weight: 600;
+}
+
+.col-centered {
+  	display: block;
+  	margin-left: auto;
+  	margin-right: auto;
+  	text-align: center;
+}
+
+.footer {
+	position: absolute;
+  	bottom: 0;
+  	/* Set the fixed height of the footer here */
+  	height: 30px;
+  	background-color: #ffffff;
+}
+
+.page-header {
+	margin-top: 0px;
+}
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+	max-width: 280px;
+}
+
+/* styles for validation helpers */
+.field-validation-error {
+	color: #b94a48;
+}
+
+.field-validation-valid {
+	display: none;
+}
+
+input.input-validation-error {
+	border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+	border: 0 none;
+}
+
+.validation-summary-errors {
+	color: #b94a48;
+}
+
+.validation-summary-valid {
+	display: none;
+}
+
+.listing {
+	padding-top: 15px;
+}
+
+.tray img {
+	display: inline-block;
+	width: 5%;
+	height: 5%;
+}
+
+.selected {
+	height: 500px;
+}
+
+.selected #selected {
+	width: auto;
+	height: 100%;
+}
+
+.listing-detail h1 {
+	word-wrap: break-word;
+}
+
+.thumbnail {
+	padding-bottom: 20px;
+}
+.thumbnail .caption h3 {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.list-thumb {
+	min-height: 165px;
+	max-height: 165px;
+}
+
+.list-element {
+	padding-bottom: 25px;
+}
+
+.badge {
+
+}
+
+#live-notify-list {
+	padding: .5em;
+	width: 40em;
+	overflow: auto;
+}
+
+#live-notify-list a {
+	text-decoration: none;
+	color: black;
+}
+
+#live-notify-list a li:hover {
+	background-color: lightgray;
+}
+
+#live-notify-list a li label {
+	float: right;
+}
+
+.navbar-inverse .navbar-nav>li>a, #live_notify_badge {
+	padding: 0px;
+}
+
+#interested_list {
+	padding: .5em;
+}

@@ -8,25 +8,45 @@ body {
 	padding-top: 70px;
 	padding-bottom: 40px;
 }
+
 .navbar {
-	font-style: 
+	font-weight: 600;
 }
 .navbar-brand {
-	font-size: 18pt;
-	font-weight: bold;
+	font-size: 20pt;
+	font-weight: 700;
+}
+.notifications {
+    margin-top: 8px;
+    margin-left: 4px;
 }
 /* Set padding to keep content from hitting the edges */
 .body-content {
 	padding-left: 15px;
 	padding-right: 15px;
 }
+.jumbotron {
+	color: #ffffff;
+	text-align: center;
+	padding-top: 70px;
+}
+.jumbotron h1{
+	font-weight: 600;
+}
+
+.col-centered {
+  	display: block;
+  	margin-left: auto;
+  	margin-right: auto;
+  	text-align: center;
+}
 
 .footer {
-  position: absolute;
-  bottom: 0;
-  /* Set the fixed height of the footer here */
-  height: 30px;
-  background-color: #ffffff;
+	position: absolute;
+  	bottom: 0;
+  	/* Set the fixed height of the footer here */
+  	height: 30px;
+  	background-color: #ffffff;
 }
 
 .page-header {
@@ -39,9 +59,6 @@ textarea {
 	max-width: 280px;
 }
 
-.btn {
-	margin-right: 10px;
-}
 /* styles for validation helpers */
 .field-validation-error {
 	color: #b94a48;
@@ -89,6 +106,7 @@ input[type="checkbox"].input-validation-error {
 .listing-detail h1 {
 	word-wrap: break-word;
 }
+
 .thumbnail {
 	padding-bottom: 20px;
 }
@@ -106,10 +124,33 @@ input[type="checkbox"].input-validation-error {
 	padding-bottom: 25px;
 }
 
-.navbar-collapse {
-	text-align: center;
+.badge {
+
 }
 
-.search {
-	display: inline-block;
+#live-notify-list {
+	padding: .5em;
+	width: 40em;
+	overflow: auto;
+}
+
+#live-notify-list a {
+	text-decoration: none;
+	color: black;
+}
+
+#live-notify-list a li:hover {
+	background-color: lightgray;
+}
+
+#live-notify-list a li label {
+	float: right;
+}
+
+.navbar-inverse .navbar-nav>li>a, #live_notify_badge {
+	padding: 0px;
+}
+
+#interested_list {
+	padding: .5em;
 }

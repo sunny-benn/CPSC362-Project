@@ -5,12 +5,21 @@
 <ul class="nav navbar-nav navbar-right">
 
     {% if user.is_authenticated %}
-    <li class="navbar-text">You are logged in as {{ user.username }}</li>
-    <li><a href="{% url 'logout' %}">Log Out</a></li>
+    {% load notifications_tags %}
+    <li class="navbar-text">Hello <span style="color:white;">{{ user.username }}</span>!</li>
+
+    <li class="dropdown">
+    	<button class="btn btn-default dropdown-toggle notifications" type="button" data-toggle="dropdown">Notifications
+	    <span class="caret"></span></button>
+	    <!-- {% live_notify_list classes="dropdown-menu" %} -->
+        <ul id="live-notify-list" class="dropdown-menu"></ul>
+    </li>
+    <li class="navbar-nav btn btn-primary notifications" role="presentation"><a style="color:white;" href="{% url 'mark_all_as_read' %}">Mark all Read <span class="badge">{% live_notify_badge classes="badge" %}</span></a></li>
+    <li class="navbar-text"><a href="{% url 'logout' %}">Log Out</a></li>
 
     {% else %}
-    <li><a href="{% url 'login' %}">Log in</a></li>
-    <li><a href="{% url 'register' %}">Register</a></li>
+    <li class="navbar-text"><a href="{% url 'login' %}">Log in</a></li>
+    <li class="navbar-text"><a href="{% url 'register' %}">Register</a></li>
 
     {% endif %}
 </ul>

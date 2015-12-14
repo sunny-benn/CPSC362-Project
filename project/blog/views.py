@@ -3,12 +3,14 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse_lazy, reverse
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.utils import timezone
 
 from .models import Listing, ListingPicture
 from .forms import UserForm, ListingForm, ListingPictureForm
 from django.forms import modelformset_factory
+
+from django.forms.models import model_to_dict
 
 from django.views.generic import View
 from django.views.generic.edit import UpdateView, DeleteView
@@ -17,6 +19,8 @@ from django.views.generic.detail import SingleObjectMixin
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from django.db.models import Q
+
+from notifications import notify
 
 # This function takes a formset, cleans it, enumerates it, and saves the corresponding object to the database. 
 # This function is not a view; just providing a service.
@@ -50,7 +54,7 @@ def savePictureFormToDB(pictureFormSet, listing):
 		else:
 			picture = ListingPicture.objects.create(picture=clean_pic, picture_id=listing)
 			picture.save()
-	return		
+	return
 
 # Defining a generic editing views for handling when the user wants to edit/update their listing.
 class ListingUpdate(UpdateView):
@@ -124,6 +128,10 @@ def base(request):
 	# We return a rendered index.html
 	return render(request, 'blog/index.html', {})
 
+# Define a basic about page.
+def about(request):
+	return render(request, 'blog/about.html', {})
+
 # This is for registering a new account on the site.
 def register(request):
 	if request.method == "POST":
@@ -146,7 +154,7 @@ def listing_list(request):
 	listings = Listing.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
 	return render(request, 'blog/listing_list.html', {'listings': listings})
 
-# For viewing a blog listing individually. We load the primary key of the listing from the database.
+# For viewing a listing individually. We load the primary key of the listing from the database.
 # Refer to the <a> tag inside listing_list.html 
 def listing_detail(request, listing_id):
 	listing = get_object_or_404(Listing, pk=listing_id)
@@ -176,11 +184,11 @@ def listing_new(request):
 
 	return render(request, 'blog/listing_new.html', {'form': form, 'pictureFormSet': pictureFormSet})
 
- # This view is for handling the search queries.
- # Utilizing Q objects provided by Django:
- # https://docs.djangoproject.com/en/1.8/topics/db/queries/#complex-lookups-with-q-objects
+# This view is for handling the search queries.
+# Utilizing Q objects provided by Django:
+# https://docs.djangoproject.com/en/1.8/topics/db/queries/#complex-lookups-with-q-objects
 def search(request):
-	if request.method == "GET":
+	if request.method == "GET":	
 		query = request.GET.get('search_box', None)
 		results = Listing.objects.filter(
 				Q(title__contains=query) | Q(text__contains=query),
@@ -189,3 +197,58 @@ def search(request):
 		
 		# Return results to already created listing_list template; no need to have an extra template.
 		return render(request, 'blog/listing_list.html', {'listings': results})
+
+# Marks all user's notifications as read; redirects to current page.
+def mark_all_as_read(request):
+	request.user.notifications.mark_all_as_read()
+
+	return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+# AJAX View to return the list of users who are interested in the listing.
+def get_interested_users(request):
+	# Make sure the request is AJAX and POST
+	if request.is_ajax() and request.method == 'POST':
+		if 'listingID' in request.POST:
+			try:
+				unread_list = []
+
+				for n in request.user.notifications.unread().filter(action_object_object_id=request.POST['listingID']):
+					struct = model_to_dict(n)
+					if n.actor:
+						struct['actor'] = str(n.actor)
+					
+					struct['description'] = "User " + struct['actor'] + " is interested"
+
+					unread_list.append(struct)
+
+				data = {
+					'response': 'success',
+					'unread_list':unread_list
+				}
+
+				return JsonResponse(data)
+			except Exception as e:
+				print(e)
+				data = {
+					'response': 'fail',
+				}
+				return JsonResponse(data)
+	
+	return JsonResponse({'response': 'fail'})
+
+
+
+# AJAX View to send a notification to the author of the listing when a user click the "I'm Interested" button.
+def send_notification(request):
+	# Make sure the request is AJAX and POST
+	if request.is_ajax() and request.method == 'POST':
+		if 'listingID' in request.POST:
+			try:
+				listing = get_object_or_404(Listing, pk=request.POST['listingID'])
+				notify.send(request.user, recipient=listing.author, verb='is interested in', action_object=listing)
+			except Exception as e:
+				print(e)
+				return HttpResponse('fail')
+
+			return HttpResponse('success')
+	return HttpResponse('fail')

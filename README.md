@@ -1,5 +1,10 @@
 # Team Interpreters 362 Project
 
+## Note regarding Notifications:
+	
+  - The `notifications` folder in the root directory needs to be copied over to your `env/lib/python3.4/site-packages/` directory (overwrite the existing `notifications`). The reason for this is because I heavily modied the API of the plugin.
+
+
 ## Requirements to install locally:
 
  - SublimeText 3 or PyCharm (or your favorite text editor) 
@@ -11,6 +16,7 @@
 
  - Django 1.8
  - Pillow 3.0
+ - [django-notificaitons 0.7.1](https://github.com/django-notifications/django-notifications)
 
  Note: If you run into errors installing the above requirements, try doing the following:
  	- $ sudo apt-get install python-dev python3-dev libjpeg-dev

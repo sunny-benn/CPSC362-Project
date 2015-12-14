@@ -12,22 +12,17 @@
                 </div>
                 <div class="form-group">
                     <label for="id_username" class="col-md-4 control-label">Create a user name</label>
-                    <div class="col-md-8">
-                        {{ form.username }}
-                    </div>
+                    <div class="col-md-4">{{ form.username }}</div>
+                    <div class="col-md-4"><span style="color:red;">{{ form.username.errors }}</span></div>
                 </div>
                 <div class="form-group">
                     <label for="id_password" class="col-md-4 control-label">Enter a password</label>
-                    <div class="col-md-8">
-                        {{ form.password }}
-                    </div>
+                    <div class="col-md-4">{{ form.password }}</div>
+                    <div class="col-md-4"><span style="color:red;">{{ form.password.errors }}</span></div>
                 </div>
                 
                 <div class="form-group">
                     <div class="col-md-offset-4 col-md-8">
-                        {% if form.errors %}
-                        <p class="validation-summary-errors">Please enter both a user name and password.</p>
-                        {% endif %}
                         <input type="hidden" name="next" value="/" />
                         <input type="submit" value="Register" class="btn btn-default" />
                     </div>

@@ -212,11 +212,13 @@
                         return;
                     }
 
-                    for (var i = 0; i < data.unread_list.length; i++) {
+                    var changes = [];
+                    for (var i = 0; i < data.unread_list.length; i++) {                            
                         // Append to the list a "<a><li></li></a>"
-                        $('#interested_list').append(data.unread_list[i].description + 
-                            "<br><p role='separator' class='divider'></p>");
+                        changes.push("<li>" + data.unread_list[i].description + 
+                            "<br><p role='separator' class='divider'></p></li>");
                     }
+                    $('#interested_list').html(changes.join(""));
                 }
                 else {
                     console.log("fail to getInterestedUsers");

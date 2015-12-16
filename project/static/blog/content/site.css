@@ -112,7 +112,9 @@ input[type="checkbox"].input-validation-error {
 }
 .thumbnail .caption h3 {
 	overflow: hidden;
+    white-space: nowrap;
 	text-overflow: ellipsis;
+    width: 250px;
 }
 
 .list-thumb {

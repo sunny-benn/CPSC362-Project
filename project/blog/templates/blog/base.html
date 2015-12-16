@@ -214,7 +214,7 @@
 
                     for (var i = 0; i < data.unread_list.length; i++) {
                         // Append to the list a "<a><li></li></a>"
-                        $('#interested_list').html(data.unread_list[i].description +
+                        $('#interested_list').append(data.unread_list[i].description + 
                             "<br><p role='separator' class='divider'></p>");
                     }
                 }

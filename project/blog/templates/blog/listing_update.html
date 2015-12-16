@@ -16,11 +16,11 @@
         {% csrf_token %}
         {% for field in form %}
         <div class="form-group">
-            <label class="control-label col-sm-1">{{ field.label_tag }}</label>
-            <div class="col-sm-11">{{ field }}</div>
+            <label class="control-label col-sm-2">{{ field.label_tag }}</label>
+            <div class="col-sm-4">{{ field }}</div>
             <span style="color:red;">{{ field.errors }}</span>
             {% if field.help_text %}
-            <p class="help">{{ field.help_text|safe }}</p>
+            <p class="help col-sm-6">{{ field.help_text|safe }}</p>
             {% endif %}
         </div>
         {% endfor %}

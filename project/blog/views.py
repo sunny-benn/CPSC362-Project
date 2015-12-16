@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse_lazy, reverse
+from django.core.exceptions import ValidationError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.utils import timezone
 
@@ -72,10 +73,22 @@ class ListingUpdate(UpdateView):
 		# Initializing formset with existing pictures from the listing (queryset).
 		pictureFormSet = self.ListingPictureFormSet(request.POST, request.FILES, queryset=ListingPicture.objects.filter(picture_id=listing_id))
 
+		listingForm = ListingForm(request.POST)
+
 		# Set the object instance in case user cancels their delete request.
 		# Must be called self.object since we are overriding the UpdateView's self.object.
 		self.object = get_object_or_404(Listing, pk=listing_id)
 		if request.user == self.object.author:
+
+			# Verify if the listing form is valid.
+			# If not, call the super class's form_invalid() method which automatically handles invalid forms.
+			if listingForm.is_valid():
+				pass
+				#print(listingForm.cleaned_data)
+				#price = listingForm.clean_price()
+			else:
+				return super(UpdateView, self).form_invalid(listingForm)
+
 			# Save updated picture form to database if there's been a change
 			if pictureFormSet.is_valid() and pictureFormSet.has_changed():
 				print("valid and has changed")
